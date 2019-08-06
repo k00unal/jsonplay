@@ -2,7 +2,7 @@ var faker = require("faker");
 
 var database = { products: [] };
 
-for (var i = 1; i <= 20; i++) {
+for (var i = 1; i <= 50; i++) {
   database.products.push({
     id: i,
     name: faker.random.words(),
