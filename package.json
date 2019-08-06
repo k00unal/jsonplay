@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "watch": "json-server --watch db.json",
-    "faker": "node generateData.js > db.json"
+    "faker": "node generateData.js > db.json",
+    "start": "json-server --watch ./db.json",
+    "start-auth": "node server.js"
   },
   "author": "Kunal Gupta",
   "license": "MIT",
   "dependencies": {
     "faker": "^4.1.0",
-    "json-server": "^0.15.0"
+    "json-server": "^0.15.0",
+    "jsonwebtoken": "^8.5.1"
   }
 }
