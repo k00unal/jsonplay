@@ -1,7 +1,7 @@
-var fs = require("fs");
-var bodyParser = require("body-parser");
-var jsonServer = require("json-server");
-var jwt = require("jsonwebtoken");
+const fs = require("fs");
+const bodyParser = require("body-parser");
+const jsonServer = require("json-server");
+const jwt = require("jsonwebtoken");
 
 // Next use the create() method to return an Express server
 var server = jsonServer.create();
@@ -13,12 +13,12 @@ var router = jsonServer.router("./db.json");
 var userdb = JSON.parse(fs.readFileSync("./users.json", "UTF-8"));
 
 // Next, set default middlewares (logger, static, cors and no-cache)
-// default setting
-// server.use(jsonServer.defaults());
 
 // custom setting
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
+// default setting
+server.use(jsonServer.defaults());
 
 // Next define some constants: SECRET_KEY is used to sign the payloads and expiresIn for setting the time of expiration for JWT access tokens.
 var SECRET_KEY = "123456789";
@@ -47,14 +47,14 @@ function isAuthenticated({ email, password }) {
 
 // Now you need to create a POST /auth/login endpoint which verifies if the user exists in the database and then create and send a JWT token to the user:
 server.post("/auth/login", (req, res) => {
-  var { email, password } = req.body;
+  const { email, password } = req.body;
   if (isAuthenticated({ email, password }) === false) {
-    var status = 401;
-    var message = "Incorrect email or password";
+    const status = 401;
+    const message = "Incorrect email or password";
     res.status(status).json({ status, message });
     return;
   }
-  var access_token = createToken({ email, password });
+  const access_token = createToken({ email, password });
   res.status(200).json({ access_token });
 });
 
@@ -65,8 +65,8 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     req.headers.authorization === undefined ||
     req.headers.authorization.split(" ")[0] !== "Bearer"
   ) {
-    var status = 401;
-    var message = "Bad authorization header";
+    const status = 401;
+    const message = "Error in authorization format";
     res.status(status).json({ status, message });
     return;
   }
@@ -74,8 +74,8 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
     verifyToken(req.headers.authorization.split(" ")[1]);
     next();
   } catch (err) {
-    var status = 401;
-    var message = "Error: access_token is not valid";
+    const status = 401;
+    const message = "Error access_token is revoked";
     res.status(status).json({ status, message });
   }
 });
@@ -84,9 +84,9 @@ server.use(/^(?!\/auth).*$/, (req, res, next) => {
 
 server.use(router);
 
-server.listen(3000, () => {
-  console.log("Run Auth API Server");
+server.listen(3001, () => {
+  console.log("Run Auth API Server at port 30001..");
 });
 
 // You can also mount json-server on a specific endpoint (/api) using:
-server.use("/api", router);
+// server.use("/api", router);

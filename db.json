@@ -299,6 +299,12 @@
       "name": "Markets multi-byte Incredible",
       "cost": 10.886786679817373,
       "quantity": 622.6900854670025
+    },
+    {
+      "id": 51,
+      "name": "updated via postman",
+      "cost": 30.886786679817373,
+      "quantity": 500.6900854670025
     }
   ]
 }
